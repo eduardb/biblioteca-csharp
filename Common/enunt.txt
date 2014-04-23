@@ -1,0 +1,13 @@
+﻿1. BIBLIOTECA
+O bibliotecă oferă abonaţilor săi o listă de cărţi ce pot fi imprumutate. 
+Un abonat are Nume şi ID unic. 
+O carte are Titlu, Autor, CodCarte şi NrExemplare. 
+ 
+Biblioteca are mai multe terminale de unde abonaţii pot să imprumute cărţi. Pentru a putea folosi un terminal, abonatul trebuie să introducă ID-ul său. Dupa 
+introducerea unui ID corect, abonatul vede lista cărţilor disponibile (care nu sunt împrumutate) şi poate împrumuta una sau mai multe cărţi.
+
+Dupa efectuarea împrumutului, toţi abonaţii care folosesc terminalele văd lista actualizată a cărţilor disponibile.
+Pentru restituirea cărţilor se procedează aproximativ la fel.
+La restituire se introduce ID-ul abonatului şi codul cărţii.
+Dupa restituire se actualizează lista cărţilor disponibile.
+Există şi un client special (administrator/bibliotecar) care poate actualiza lista cărţilor (adăugare/modificare/ştergere carte, modificare număr de exemplare).
