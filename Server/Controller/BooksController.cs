@@ -41,5 +41,14 @@ namespace Server.Controller
 
             return JsonConvert.SerializeObject(response, Formatting.None);
         }
+
+        public override string delete(Command command)
+        {
+            Response<object> response = new Response<object>();
+
+            response.success = Repository.Repository.getInstance().deleteBook(command.arg1);
+
+            return JsonConvert.SerializeObject(response, Formatting.None);
+        }
     }
 }

@@ -105,6 +105,30 @@ namespace Client
             thread.Start();
         }
 
+        public static void deleteBook(string bookCode, Action<Response<object>> callback)
+        {
+            Command cmd = new Command { controller = API.Controllers.BOOKS, method = API.Methods.DELETE, arg1 = bookCode, userID = UserID };
+
+            Thread thread = new Thread(new ThreadStart(
+                () =>
+                {
+                    Send<object>(cmd, callback);
+                }));
+            thread.Start();
+        }
+
+        public static void getAllBorrowings(Action<Response<List<Borrowing>>> callback)
+        {
+            Command cmd = new Command { controller = API.Controllers.BORROWING, method = API.Methods.LIST, userID = UserID };
+
+            Thread thread = new Thread(new ThreadStart(
+                () =>
+                {
+                    Send<List<Borrowing>>(cmd, callback);
+                }));
+            thread.Start();
+        }
+
         private static void Send<T>(Command cmd, Action<Response<T>> callback)
         {
             // Send command to the remote device.

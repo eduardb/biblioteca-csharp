@@ -51,5 +51,13 @@ namespace Server.Controller
 
             return JsonConvert.SerializeObject(response, Formatting.None);
         }
+
+        public override string delete(Command command)
+        {
+            Response<User> response = new Response<User>();
+            response.success = false;
+            response.message = "Not implemented";
+            return JsonConvert.SerializeObject(response, Formatting.None);
+        }
     }
 }

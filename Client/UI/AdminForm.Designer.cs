@@ -60,6 +60,7 @@
             this.restituieCarteButton.TabIndex = 6;
             this.restituieCarteButton.Text = "Restituie o carte imprumutata";
             this.restituieCarteButton.UseVisualStyleBackColor = true;
+            this.restituieCarteButton.Click += new System.EventHandler(this.restituieCarteButton_Click);
             // 
             // adaugaCarteNouaButton
             // 
@@ -92,6 +93,7 @@
             this.stergeCarteButton.TabIndex = 7;
             this.stergeCarteButton.Text = "Sterge carte";
             this.stergeCarteButton.UseVisualStyleBackColor = true;
+            this.stergeCarteButton.Click += new System.EventHandler(this.stergeCarteButton_Click);
             // 
             // AdminForm
             // 

@@ -70,6 +70,12 @@
     <Compile Include="UI\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ReturnForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ReturnForm.Designer.cs">
+      <DependentUpon>ReturnForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +92,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ReturnForm.resx">
+      <DependentUpon>ReturnForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UserForm.resx">
       <DependentUpon>UserForm.cs</DependentUpon>

@@ -14,7 +14,8 @@ namespace Client.UI
 {
     public partial class AdminForm : Form
     {
-        delegate void SetBooksList(Response<List<Book>> response);
+        delegate void OnLoadBooksList(Response<List<Book>> response);
+        delegate void OnDeleteBook(Response<object> response);
 
         private BindingList<Book> booksBindingList;
 
@@ -44,7 +45,7 @@ namespace Client.UI
         {
             if (dataGridView1.InvokeRequired)
             {
-                SetBooksList d = new SetBooksList(loadBooks);
+                OnLoadBooksList d = new OnLoadBooksList(loadBooks);
                 this.Invoke(d, new object[] { booksResponse });
             }
             else
@@ -87,6 +88,49 @@ namespace Client.UI
         {
             BookForm bookForm = new BookForm(null);
             bookForm.ShowDialog();
+        }
+
+        private void stergeCarteButton_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                var b = dataGridView1.SelectedRows[0].DataBoundItem;
+                if (b.GetType() == typeof(Book))
+                {
+                    if (MessageBox.Show("Sunteti sigur ca vreti sa stergeti cartea selectata?", "Confirma stergerea", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        ClientConnection.deleteBook(((Book)b).CodCarte, handleDelete);
+                    }
+                }
+            }
+        }
+
+        private void handleDelete(Response<object> response)
+        {
+            if (this.InvokeRequired)
+            {
+                OnDeleteBook d = new OnDeleteBook(handleDelete);
+                this.Invoke(d, new object[] { response });
+            }
+            else
+            {
+                if (response.success)
+                {
+                    MessageBox.Show("Cartea a fost stearsa");
+
+                    ClientConnection.getAllBooks(loadBooks, true);
+                }
+                else
+                {
+                    MessageBox.Show(response.message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void restituieCarteButton_Click(object sender, EventArgs e)
+        {
+            ReturnForm rf = new ReturnForm();
+            rf.ShowDialog();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Client.UI
 {
     public partial class UserForm : Form
     {
-        delegate void SetBooksList(Response<List<Book>> response);
+        delegate void OnLoadBooksList(Response<List<Book>> response);
 
         private BindingList<Book> booksBindingList;
         private List<Book> booksToBorrow;
@@ -46,7 +46,7 @@ namespace Client.UI
         {
             if (dataGridView1.InvokeRequired)
             {
-                SetBooksList d = new SetBooksList(loadBooks);
+                OnLoadBooksList d = new OnLoadBooksList(loadBooks);
                 this.Invoke(d, new object[] { booksResponse });
             }
             else

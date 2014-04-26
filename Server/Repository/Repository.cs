@@ -194,5 +194,43 @@ namespace Server.Repository
 
             return true;
         }
+
+        public bool deleteBook(string bookCode)
+        {
+            MySqlCommand cmd = new MySqlCommand("delete from carti where CodCarte=@CodCarte", conn);
+            cmd.Parameters.Add(new MySqlParameter("@CodCarte", bookCode));
+
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public List<Borrowing> getBorrowings()
+        {
+            List<Borrowing> borrowings = new List<Borrowing>();
+
+            MySqlCommand cmd = new MySqlCommand("select * from imprumuturi", conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Borrowing b = new Borrowing();
+                b.CodCarte = rdr.GetString("CodCarte");
+                b.IDUser = rdr.GetString("IDUser");
+
+                borrowings.Add(b);
+            }
+
+            rdr.Close();
+
+            return borrowings;
+        }
     }
 }

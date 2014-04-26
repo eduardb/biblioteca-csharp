@@ -20,6 +20,7 @@ namespace Common
             public const string LIST = "list";
             public const string GET = "get";
             public const string PUT = "put";
+            public const string DELETE = "delete";
         }
     }
 }

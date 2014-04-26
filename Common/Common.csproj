@@ -45,6 +45,7 @@
     <Compile Include="API.cs" />
     <Compile Include="Model\Book.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="Model\Borrowing.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="Settings.cs" />

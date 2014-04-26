@@ -15,7 +15,10 @@ namespace Server.Controller
     {
         public override string list(Command command)
         {
-            throw new NotImplementedException(); ;
+            Response<List<Borrowing>> response = new Response<List<Borrowing>>();
+            response.success = true;
+            response.response = Repository.Repository.getInstance().getBorrowings();
+            return JsonConvert.SerializeObject(response, Formatting.None);
         }
 
         public override string get(Command command)
@@ -51,6 +54,11 @@ namespace Server.Controller
             }
 
             return JsonConvert.SerializeObject(response, Formatting.None);
+        }
+
+        public override string delete(Command command)
+        {
+            throw new NotImplementedException();
         }
     }
 }
