@@ -35,9 +35,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.titluTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.nrExemplareNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nrExemplareNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // okButton
@@ -49,6 +49,7 @@
             this.okButton.TabIndex = 13;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // codCarteTextBox
             // 
@@ -104,12 +105,17 @@
             this.label1.TabIndex = 7;
             this.label1.Text = "Titlu";
             // 
-            // numericUpDown1
+            // nrExemplareNumericUpDown
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(103, 105);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown1.TabIndex = 14;
+            this.nrExemplareNumericUpDown.Location = new System.Drawing.Point(103, 105);
+            this.nrExemplareNumericUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.nrExemplareNumericUpDown.Name = "nrExemplareNumericUpDown";
+            this.nrExemplareNumericUpDown.Size = new System.Drawing.Size(120, 20);
+            this.nrExemplareNumericUpDown.TabIndex = 14;
             // 
             // label4
             // 
@@ -126,7 +132,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(332, 138);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.nrExemplareNumericUpDown);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.codCarteTextBox);
             this.Controls.Add(this.label3);
@@ -136,7 +142,7 @@
             this.Controls.Add(this.label1);
             this.Name = "BookForm";
             this.Text = "BookForm";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nrExemplareNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -151,7 +157,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox titluTextBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown nrExemplareNumericUpDown;
         private System.Windows.Forms.Label label4;
     }
 }

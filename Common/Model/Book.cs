@@ -20,8 +20,17 @@ namespace Common.Model
 
         public static bool operator==(Book b1, Book b2)
         {
-            if (b1 == null)
+            // If both are null, or both are same instance, return true.
+            if (System.Object.ReferenceEquals(b1, b2))
+            {
+                return true;
+            }
+
+            // If one is null, but not both, return false.
+            if (((object)b1 == null) || ((object)b2 == null))
+            {
                 return false;
+            }
             return b1.Equals(b2);
         }
 

@@ -14,6 +14,8 @@ namespace Client.UI
 {
     public partial class UserForm : Form
     {
+        delegate void SetBooksList(Response<List<Book>> response);
+
         private BindingList<Book> booksBindingList;
         private List<Book> booksToBorrow;
 
@@ -42,47 +44,55 @@ namespace Client.UI
 
         private void loadBooks(Response<List<Book>> booksResponse)
         {
-            if (booksResponse.success)
+            if (dataGridView1.InvokeRequired)
             {
-                booksBindingList.Clear();
-
-                foreach (Book b in booksResponse.response)
-                {
-                    booksBindingList.Add(b);
-                }
-
-                List<Book> toBorrow = new List<Book>(booksToBorrow);
-                booksToBorrow.Clear();
-
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
-                {
-                    var c = dataGridView1.Rows[i].DataBoundItem;
-                    if (c.GetType() == typeof(Book))
-                    {
-                        Book b = c as Book;
-                        if (toBorrow.Contains(b))
-                        {
-                            toBorrow.Remove(b);
-                            booksToBorrow.Add(b);
-                            dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow;
-                            dataGridView1.Rows[i].DefaultCellStyle.SelectionBackColor = Color.YellowGreen;
-                        }
-                    }
-                }
-
-                if (toBorrow.Count > 0)
-                {
-                    StringBuilder s = new StringBuilder();
-                    foreach (Book c in toBorrow)
-                    {
-                        s.Append(c.ToString() + Environment.NewLine);
-                    }
-                    MessageBox.Show("Urmatoarele carti nu mai sunt disponibile pentru imprumut:" + Environment.NewLine + s.ToString());
-                }
+                SetBooksList d = new SetBooksList(loadBooks);
+                this.Invoke(d, new object[] { booksResponse });
             }
             else
             {
-                MessageBox.Show(booksResponse.message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (booksResponse.success)
+                {
+                    booksBindingList.Clear();
+
+                    foreach (Book b in booksResponse.response)
+                    {
+                        booksBindingList.Add(b);
+                    }
+
+                    List<Book> toBorrow = new List<Book>(booksToBorrow);
+                    booksToBorrow.Clear();
+
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        var c = dataGridView1.Rows[i].DataBoundItem;
+                        if (c.GetType() == typeof(Book))
+                        {
+                            Book b = c as Book;
+                            if (toBorrow.Contains(b))
+                            {
+                                toBorrow.Remove(b);
+                                booksToBorrow.Add(b);
+                                dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Yellow;
+                                dataGridView1.Rows[i].DefaultCellStyle.SelectionBackColor = Color.YellowGreen;
+                            }
+                        }
+                    }
+
+                    if (toBorrow.Count > 0)
+                    {
+                        StringBuilder s = new StringBuilder();
+                        foreach (Book c in toBorrow)
+                        {
+                            s.Append(c.ToString() + Environment.NewLine);
+                        }
+                        MessageBox.Show("Urmatoarele carti nu mai sunt disponibile pentru imprumut:" + Environment.NewLine + s.ToString());
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(booksResponse.message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

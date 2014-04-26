@@ -7,6 +7,7 @@ using Common;
 using Common.Model;
 using Server.Repository;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Server.Controller
 {
@@ -22,12 +23,23 @@ namespace Server.Controller
 
         public override string get(Command command)
         {
-            throw new NotImplementedException();
+            Response<Book> response = new Response<Book>();
+
+            response.response = Repository.Repository.getInstance().getBookByCode(command.arg1);
+            response.success = response.response != null;
+
+            return JsonConvert.SerializeObject(response, Formatting.None);
         }
 
         public override string put(Command command)
         {
-            throw new NotImplementedException();
+            Response<object> response = new Response<object>();
+
+            JObject jBook = (JObject)command.arg2;
+            Book book = JsonConvert.DeserializeObject<Book>(JsonConvert.SerializeObject(jBook));
+            response.success = Repository.Repository.getInstance().addOrUpdateBook(book);
+
+            return JsonConvert.SerializeObject(response, Formatting.None);
         }
     }
 }

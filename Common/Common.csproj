@@ -48,7 +48,6 @@
     <Compile Include="Model\User.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="StateObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

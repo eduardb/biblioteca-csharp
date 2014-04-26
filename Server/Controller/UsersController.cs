@@ -14,12 +14,18 @@ namespace Server.Controller
     {
         public override string list(Command command)
         {
-            throw new NotImplementedException();
+            Response<User> response = new Response<User>();
+            response.success = false;
+            response.message = "Not implemented";
+            return JsonConvert.SerializeObject(response, Formatting.None);
         }
 
         public override string put(Command command)
         {
-            throw new NotImplementedException();
+            Response<User> response = new Response<User>();
+            response.success = false;
+            response.message = "Not implemented";
+            return JsonConvert.SerializeObject(response, Formatting.None);
         }
 
         public override string get(Command command)

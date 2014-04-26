@@ -70,6 +70,7 @@
             this.adaugaCarteNouaButton.TabIndex = 9;
             this.adaugaCarteNouaButton.Text = "Adauga carte noua";
             this.adaugaCarteNouaButton.UseVisualStyleBackColor = true;
+            this.adaugaCarteNouaButton.Click += new System.EventHandler(this.adaugaCarteNouaButton_Click);
             // 
             // modificaCarteButton
             // 
@@ -80,6 +81,7 @@
             this.modificaCarteButton.TabIndex = 8;
             this.modificaCarteButton.Text = "Modifica carte";
             this.modificaCarteButton.UseVisualStyleBackColor = true;
+            this.modificaCarteButton.Click += new System.EventHandler(this.modificaCarteButton_Click);
             // 
             // stergeCarteButton
             // 
@@ -104,6 +106,7 @@
             this.Name = "AdminForm";
             this.Text = "AdminForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AdminForm_FormClosed);
+            this.Load += new System.EventHandler(this.AdminForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

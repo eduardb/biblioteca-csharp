@@ -165,5 +165,34 @@ namespace Server.Repository
 
             return booksNotBorrowable;
         }
+
+        public bool addOrUpdateBook(Book book)
+        {
+            MySqlCommand cmd = null;
+            if (getBookByCode(book.CodCarte) == null) // new book
+            {
+                cmd = new MySqlCommand("insert into carti values (@CodCarte, @Titlu, @Autor, @NrExemplare)", conn);
+            }
+            else // update existing
+            {
+                cmd = new MySqlCommand("update carti set Titlu=@Titlu, Autor=@Autor, NrExemplare=@NrExemplare where CodCarte=@CodCarte", conn);
+            }
+
+            cmd.Parameters.Add(new MySqlParameter("@CodCarte", book.CodCarte));
+            cmd.Parameters.Add(new MySqlParameter("@Titlu", book.Titlu));
+            cmd.Parameters.Add(new MySqlParameter("@Autor", book.Autor));
+            cmd.Parameters.Add(new MySqlParameter("@NrExemplare", book.NrExemplare));
+
+            try
+            {                
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }
