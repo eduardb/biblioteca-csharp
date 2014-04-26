@@ -37,7 +37,7 @@ namespace Client.UI
             dataGridView1.Columns["Autor"].HeaderText = "Autor";
             dataGridView1.Columns["NrExemplare"].HeaderText = "Nr. Exemplare";
 
-            ClientConnection.getAllBooks(loadBooks);
+            ClientConnection.getAllBooks(loadBooks, false);
         }
 
         private void loadBooks(Response<List<Book>> booksResponse)
@@ -110,6 +110,64 @@ namespace Client.UI
                         booksToBorrow.Add(b);
                         row.DefaultCellStyle.BackColor = Color.Yellow;
                         row.DefaultCellStyle.SelectionBackColor = Color.YellowGreen;
+                    }
+                }
+            }
+        }
+
+        private void imprumutaCartileSelectateButton_Click(object sender, EventArgs e)
+        {
+            if (booksToBorrow.Count == 0)
+            {
+                MessageBox.Show("Nu aveti nicio carte selectata pentru imprumut!");
+                return;
+            }
+
+            String s = String.Empty;
+            foreach (Book b in booksToBorrow)
+            {
+                s += b.ToString() + Environment.NewLine;
+            }
+
+            if (MessageBox.Show("Urmatoarele carti sunt selectate pentru imprumut:" + Environment.NewLine + s, 
+                "Confirmati", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                ClientConnection.borrowBooks(booksToBorrow, handleBorrow);
+            }
+        }
+
+        private void handleBorrow(Response<object> response)
+        {
+            if (response.success)
+            {
+                MessageBox.Show("Mergeti la bibliotecar sa va ridicati cartile imprumutate");
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(response.message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dataGridView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                var c = dataGridView1.SelectedRows[0].DataBoundItem;
+                if (c.GetType() == typeof(Book))
+                {
+                    Book b = c as Book;
+                    if (booksToBorrow.Contains(b))
+                    {
+                        booksToBorrow.Remove(b);
+                        dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor = Color.White;
+                        dataGridView1.SelectedRows[0].DefaultCellStyle.SelectionBackColor = dataGridView1.DefaultCellStyle.SelectionBackColor;
+                    }
+                    else
+                    {
+                        booksToBorrow.Add(b);
+                        dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor = Color.Yellow;
+                        dataGridView1.SelectedRows[0].DefaultCellStyle.SelectionBackColor = Color.YellowGreen;
                     }
                 }
             }

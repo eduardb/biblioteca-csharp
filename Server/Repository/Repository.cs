@@ -23,7 +23,6 @@ namespace Server.Repository
             {
                 Console.WriteLine("Connecting to MySQL...");
                 conn.Open();
-                // Perform database operations
             }
             catch (Exception ex)
             {
@@ -71,7 +70,7 @@ namespace Server.Repository
             return user;
         }
 
-        public List<Book> getAllBooks()
+        public List<Book> getAllBooks(bool includeUnavailable)
         {
             List<Book> books = new List<Book>();
 
@@ -86,12 +85,85 @@ namespace Server.Repository
                 b.Titlu = rdr.GetString("Titlu");
                 b.NrExemplare = rdr.GetInt32("NrExemplare");
 
-                books.Add(b);
+                if (includeUnavailable || b.NrExemplare > 0)
+                    books.Add(b);
             }
 
             rdr.Close();
 
             return books;
+        }
+
+        public Book getBookByCode(string code)
+        {
+            return getBookByCode(code, null);
+        }
+
+        private Book getBookByCode(string code, MySqlTransaction transaction)
+        {
+            Book book = null;
+
+            MySqlCommand cmd = new MySqlCommand("select * from carti where CodCarte=@CodCarte", conn);
+            if (transaction != null)
+                cmd.Transaction = transaction;
+            cmd.Parameters.Add(new MySqlParameter("@CodCarte", code));
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            if (rdr.Read())
+            {
+                book = new Book();
+                book.CodCarte = code;
+                book.Titlu = rdr.GetString("Titlu");
+                book.Autor = rdr.GetString("Autor");
+                book.NrExemplare = rdr.GetInt32("NrExemplare");
+            }
+            rdr.Close();
+
+            return book;
+        }
+
+        public List<Book> makeBorrowing(string userID, List<Book> books)
+        {
+            List<Book> booksNotBorrowable = new List<Book>();
+            MySqlTransaction transaction = conn.BeginTransaction();
+
+            foreach (Book book in books)
+            {
+                if (getBookByCode(book.CodCarte).NrExemplare <= 0)
+                {
+                    booksNotBorrowable.Add(book);
+                }
+                else
+                {
+                    MySqlCommand cmd = new MySqlCommand("insert into imprumuturi values (@IDUser,@CodCarte)", conn, transaction);
+                    cmd.Parameters.Add(new MySqlParameter("@CodCarte", book.CodCarte));
+                    cmd.Parameters.Add(new MySqlParameter("@IDUser", userID));
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+
+                        cmd = new MySqlCommand("update carti set NrExemplare=NrExemplare-1 where CodCarte=@CodCarte", conn, transaction);
+                        cmd.Parameters.Add(new MySqlParameter("@CodCarte", book.CodCarte));
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception)
+                    {
+                        booksNotBorrowable.Add(book);
+                    }
+                }
+            }
+
+            if (booksNotBorrowable.Count > 0)
+            {
+                transaction.Rollback();
+            }
+            else
+            {
+                transaction.Commit();
+            }
+
+            return booksNotBorrowable;
         }
     }
 }

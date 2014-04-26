@@ -69,17 +69,26 @@ namespace Client
                 });
         }
 
-        public static void getAllBooks(Action<Response<List<Book>>> callback)
+        public static void getAllBooks(Action<Response<List<Book>>> callback, bool includeUnavailable)
         {
-            Command cmd = new Command { controller = API.Controllers.BOOKS, method = API.Methods.LIST, userID = UserID };
+            Command cmd = new Command { controller = API.Controllers.BOOKS, method = API.Methods.LIST, arg2 = includeUnavailable, userID = UserID };
 
             Thread thread = new Thread(new ThreadStart(
                 () =>
                 {
-                    Send<List<Book>>(cmd, (response) =>
-                        {
-                            callback(response);
-                        });
+                    Send<List<Book>>(cmd, callback);
+                }));
+            thread.Start();
+        }
+
+        public static void borrowBooks(List<Book> books, Action<Response<object>> callback)
+        {
+            Command cmd = new Command { controller = API.Controllers.BORROWING, method = API.Methods.PUT, arg2 = books, userID = UserID };
+
+            Thread thread = new Thread(new ThreadStart(
+                () =>
+                {
+                    Send<object>(cmd, callback);
                 }));
             thread.Start();
         }

@@ -12,6 +12,7 @@ namespace Common
         {
             public const string BOOKS = "books";
             public const string USERS = "users";
+            public const string BORROWING = "borrowing";
         }
 
         public class Methods

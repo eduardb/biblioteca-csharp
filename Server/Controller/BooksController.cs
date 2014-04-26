@@ -16,7 +16,7 @@ namespace Server.Controller
         {
             Response<List<Book>> response = new Response<List<Book>>();
             response.success = true;
-            response.response = Repository.Repository.getInstance().getAllBooks();
+            response.response = Repository.Repository.getInstance().getAllBooks((bool)command.arg2);
             return JsonConvert.SerializeObject(response, Formatting.None);
         }
 

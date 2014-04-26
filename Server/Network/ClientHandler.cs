@@ -20,6 +20,7 @@ namespace Server.Network
 
         private UsersController usersController;
         private BooksController booksController;
+        private BorrowingController borrowingController;
 
         public ClientHandler(TcpClient tcpClient)
         {
@@ -29,6 +30,7 @@ namespace Server.Network
             writer = new StreamWriter(networkStream, Encoding.ASCII);
             usersController = new UsersController();
             booksController = new BooksController();
+            borrowingController = new BorrowingController();
         }
 
         public void handle()
@@ -52,6 +54,9 @@ namespace Server.Network
                             break;
                         case API.Controllers.BOOKS:
                             controller = booksController;
+                            break;
+                        case API.Controllers.BORROWING:
+                            controller = borrowingController;
                             break;
                     }
                     String response = controller.processCommand(cmd);

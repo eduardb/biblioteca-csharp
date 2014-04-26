@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\BooksController.cs" />
+    <Compile Include="Controller\BorrowingController.cs" />
     <Compile Include="Controller\Controller.cs" />
     <Compile Include="Controller\UsersController.cs" />
     <Compile Include="Network\ClientHandler.cs" />
