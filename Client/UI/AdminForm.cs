@@ -19,6 +19,8 @@ namespace Client.UI
 
         private BindingList<Book> booksBindingList;
 
+        private long lastBookUpdate;
+
         public AdminForm()
         {
             InitializeComponent();
@@ -38,7 +40,8 @@ namespace Client.UI
             dataGridView1.Columns["Autor"].HeaderText = "Autor";
             dataGridView1.Columns["NrExemplare"].HeaderText = "Nr. Exemplare";
 
-            ClientConnection.getAllBooks(loadBooks, true);
+            timer1.Enabled = true;
+            timer1.Start();
         }
 
         private void loadBooks(Response<List<Book>> booksResponse)
@@ -117,8 +120,6 @@ namespace Client.UI
                 if (response.success)
                 {
                     MessageBox.Show("Cartea a fost stearsa");
-
-                    ClientConnection.getAllBooks(loadBooks, true);
                 }
                 else
                 {
@@ -131,6 +132,20 @@ namespace Client.UI
         {
             ReturnForm rf = new ReturnForm();
             rf.ShowDialog();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            ClientConnection.getBookUpdates(handleUpdates);
+        }
+
+        private void handleUpdates(Response<long> response)
+        {
+            if (response.success && response.response > lastBookUpdate)
+            {
+                lastBookUpdate = response.response;
+                ClientConnection.getAllBooks(loadBooks, true);
+            }
         }
     }
 }

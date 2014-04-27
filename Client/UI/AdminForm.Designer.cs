@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.restituieCarteButton = new System.Windows.Forms.Button();
             this.adaugaCarteNouaButton = new System.Windows.Forms.Button();
             this.modificaCarteButton = new System.Windows.Forms.Button();
             this.stergeCarteButton = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,6 +97,11 @@
             this.stergeCarteButton.UseVisualStyleBackColor = true;
             this.stergeCarteButton.Click += new System.EventHandler(this.stergeCarteButton_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // AdminForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -121,5 +128,6 @@
         private System.Windows.Forms.Button adaugaCarteNouaButton;
         private System.Windows.Forms.Button modificaCarteButton;
         private System.Windows.Forms.Button stergeCarteButton;
+        private System.Windows.Forms.Timer timer1;
     }
 }

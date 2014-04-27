@@ -142,6 +142,32 @@ namespace Client
             thread.Start();
         }
 
+
+
+        public static void getBookUpdates(Action<Response<long>> callback)
+        {
+            Command cmd = new Command { controller = API.Controllers.BOOKS, method = API.Methods.BEAT, userID = UserID };
+
+            Thread thread = new Thread(new ThreadStart(
+                () =>
+                {
+                    Send<long>(cmd, callback);
+                }));
+            thread.Start();
+        }
+
+        public static void getBorrowingUpdates(Action<Response<long>> callback)
+        {
+            Command cmd = new Command { controller = API.Controllers.BORROWING, method = API.Methods.BEAT, userID = UserID };
+
+            Thread thread = new Thread(new ThreadStart(
+                () =>
+                {
+                    Send<long>(cmd, callback);
+                }));
+            thread.Start();
+        }
+
         private static void Send<T>(Command cmd, Action<Response<T>> callback)
         {
             // Send command to the remote device.

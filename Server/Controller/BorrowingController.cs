@@ -23,7 +23,10 @@ namespace Server.Controller
 
         public override string get(Command command)
         {
-            throw new NotImplementedException();
+            Response<User> response = new Response<User>();
+            response.success = false;
+            response.message = "Not implemented";
+            return JsonConvert.SerializeObject(response, Formatting.None);
         }
 
         public override string put(Command command)
@@ -62,6 +65,17 @@ namespace Server.Controller
 
             response.success = Repository.Repository.getInstance().returnBorrowing(command.arg1, (string)command.arg2);
 
+
+            return JsonConvert.SerializeObject(response, Formatting.None);
+        }
+
+        public override string beat(Command command)
+        {
+            Response<long> response = new Response<long>();
+
+            response.success = true;
+
+            response.response = Repository.Repository.getInstance().getLastBorrowingUpdate();
 
             return JsonConvert.SerializeObject(response, Formatting.None);
         }

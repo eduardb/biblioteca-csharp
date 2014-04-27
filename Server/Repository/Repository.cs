@@ -15,6 +15,8 @@ namespace Server.Repository
         private const string ConnectionString = @"server=localhost;user id=root;database=biblioteca_mpp";
         private MySqlConnection conn;
 
+        private long lastBorrowingUpdate, lastBookUpdate;
+
         private Repository()
         {
             conn = new MySqlConnection(ConnectionString);
@@ -29,6 +31,9 @@ namespace Server.Repository
                 Console.WriteLine(ex.ToString());
                 throw ex;
             }
+
+            lastBookUpdate = DateTime.Now.Ticks;
+            lastBorrowingUpdate = DateTime.Now.Ticks;
 
         }
 
@@ -161,6 +166,8 @@ namespace Server.Repository
             else
             {
                 transaction.Commit();
+                lastBorrowingUpdate = DateTime.Now.Ticks;
+                lastBookUpdate = DateTime.Now.Ticks;
             }
 
             return booksNotBorrowable;
@@ -186,6 +193,7 @@ namespace Server.Repository
             try
             {                
                 cmd.ExecuteNonQuery();
+                lastBookUpdate = DateTime.Now.Ticks;
             }
             catch (Exception)
             {
@@ -203,6 +211,7 @@ namespace Server.Repository
             try
             {
                 cmd.ExecuteNonQuery();
+                lastBookUpdate = DateTime.Now.Ticks;
             }
             catch (Exception)
             {
@@ -244,7 +253,20 @@ namespace Server.Repository
             cmd.Parameters.Add(new MySqlParameter("@CodCarte", bookCode));
             cmd.ExecuteNonQuery();
 
+            lastBorrowingUpdate = DateTime.Now.Ticks;
+            lastBookUpdate = DateTime.Now.Ticks;
+
             return true;
+        }
+
+        public long getLastBorrowingUpdate()
+        {
+            return lastBorrowingUpdate;
+        }
+
+        public long getLastBookUpdate()
+        {
+            return lastBookUpdate;
         }
     }
 }

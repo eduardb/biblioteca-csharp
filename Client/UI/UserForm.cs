@@ -19,6 +19,8 @@ namespace Client.UI
         private BindingList<Book> booksBindingList;
         private List<Book> booksToBorrow;
 
+        private long lastBookUpdate;
+
         public UserForm()
         {
             InitializeComponent();
@@ -39,7 +41,8 @@ namespace Client.UI
             dataGridView1.Columns["Autor"].HeaderText = "Autor";
             dataGridView1.Columns["NrExemplare"].HeaderText = "Nr. Exemplare";
 
-            ClientConnection.getAllBooks(loadBooks, false);
+            timer1.Enabled = true;
+            timer1.Start();
         }
 
         private void loadBooks(Response<List<Book>> booksResponse)
@@ -180,6 +183,20 @@ namespace Client.UI
                         dataGridView1.SelectedRows[0].DefaultCellStyle.SelectionBackColor = Color.YellowGreen;
                     }
                 }
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            ClientConnection.getBookUpdates(handleUpdates);
+        }
+
+        private void handleUpdates(Response<long> response)
+        {
+            if (response.success && response.response > lastBookUpdate)
+            {
+                lastBookUpdate = response.response;
+                ClientConnection.getAllBooks(loadBooks, false);
             }
         }
 

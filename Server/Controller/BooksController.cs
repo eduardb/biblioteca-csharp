@@ -50,5 +50,16 @@ namespace Server.Controller
 
             return JsonConvert.SerializeObject(response, Formatting.None);
         }
+
+        public override string beat(Command command)
+        {
+            Response<long> response = new Response<long>();
+
+            response.success = true;
+
+            response.response = Repository.Repository.getInstance().getLastBookUpdate();
+
+            return JsonConvert.SerializeObject(response, Formatting.None);
+        }
     }
 }

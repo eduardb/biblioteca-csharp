@@ -21,6 +21,9 @@ namespace Server.Controller
                     return put(command);
                 case API.Methods.DELETE:
                     return delete(command);
+                case API.Methods.BEAT:
+                    return beat(command);
+
             }
             return String.Empty;
         }
@@ -29,5 +32,6 @@ namespace Server.Controller
         public abstract String get(Command command);
         public abstract String put(Command command);
         public abstract String delete(Command command);
+        public abstract String beat(Command command);
     }
 }

@@ -59,5 +59,13 @@ namespace Server.Controller
             response.message = "Not implemented";
             return JsonConvert.SerializeObject(response, Formatting.None);
         }
+
+        public override string beat(Command command)
+        {
+            Response<User> response = new Response<User>();
+            response.success = false;
+            response.message = "Not implemented";
+            return JsonConvert.SerializeObject(response, Formatting.None);
+        }
     }
 }

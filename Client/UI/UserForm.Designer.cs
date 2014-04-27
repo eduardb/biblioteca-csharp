@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.imprumutaCartileSelectateButton = new System.Windows.Forms.Button();
             this.marcheazaImprumutButton = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,6 +74,11 @@
             this.marcheazaImprumutButton.UseVisualStyleBackColor = true;
             this.marcheazaImprumutButton.Click += new System.EventHandler(this.marcheazaImprumutButton_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // UserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -94,6 +101,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button imprumutaCartileSelectateButton;
         private System.Windows.Forms.Button marcheazaImprumutButton;
+        private System.Windows.Forms.Timer timer1;
 
     }
 }

@@ -19,6 +19,8 @@ namespace Client.UI
 
         BindingList<Borrowing> borrowingsBindingList;
 
+        private long lastBorrowingUpdate;
+
         public ReturnForm()
         {
             InitializeComponent();
@@ -34,7 +36,8 @@ namespace Client.UI
             dataGridView1.Columns["CodCarte"].HeaderText = "Cod carte";
             dataGridView1.Columns["IDUser"].HeaderText = "ID Abonat";
 
-            ClientConnection.getAllBorrowings(loadBorrowings);
+            timer1.Enabled = true;
+            timer1.Start();
         }
 
         private void loadBorrowings(Response<List<Borrowing>> borrowingsResponse)
@@ -98,12 +101,25 @@ namespace Client.UI
                 if (response.success)
                 {
                     MessageBox.Show("Restituire realizata cu succes!");
-                    ClientConnection.getAllBorrowings(loadBorrowings);
                 }
                 else
                 {
                     MessageBox.Show(response.message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            ClientConnection.getBorrowingUpdates(handleUpdates);
+        }
+
+        private void handleUpdates(Response<long> response)
+        {
+            if (response.success && response.response > lastBorrowingUpdate)
+            {
+                lastBorrowingUpdate = response.response;
+                ClientConnection.getAllBorrowings(loadBorrowings);
             }
         }
     }
