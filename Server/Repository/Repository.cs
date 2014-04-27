@@ -232,5 +232,19 @@ namespace Server.Repository
 
             return borrowings;
         }
+
+        public bool returnBorrowing(string bookCode, string userId)
+        {
+            MySqlCommand cmd = new MySqlCommand("delete from imprumuturi where IDUser=@IDUser and CodCarte=@CodCarte", conn);
+            cmd.Parameters.Add(new MySqlParameter("@CodCarte", bookCode));
+            cmd.Parameters.Add(new MySqlParameter("@IDUser", userId));
+            cmd.ExecuteNonQuery();
+
+            cmd = new MySqlCommand("update carti set NrExemplare=NrExemplare+1 where CodCarte=@CodCarte", conn);
+            cmd.Parameters.Add(new MySqlParameter("@CodCarte", bookCode));
+            cmd.ExecuteNonQuery();
+
+            return true;
+        }
     }
 }

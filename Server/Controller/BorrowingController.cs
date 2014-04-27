@@ -58,7 +58,12 @@ namespace Server.Controller
 
         public override string delete(Command command)
         {
-            throw new NotImplementedException();
+            Response<object> response = new Response<object>();
+
+            response.success = Repository.Repository.getInstance().returnBorrowing(command.arg1, (string)command.arg2);
+
+
+            return JsonConvert.SerializeObject(response, Formatting.None);
         }
     }
 }

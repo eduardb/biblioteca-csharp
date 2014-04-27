@@ -15,6 +15,7 @@ namespace Client.UI
     public partial class ReturnForm : Form
     {
         delegate void OnLoadBorrowingsList(Response<List<Borrowing>> response);
+        delegate void OnHandleReturn(Response<object> response);
 
         BindingList<Borrowing> borrowingsBindingList;
 
@@ -76,7 +77,34 @@ namespace Client.UI
 
         private void restituieButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Neimplementat");
+            if (codCarteTextBox.Text.Length == 0 || codAbonatTextBox.Text.Length == 0)
+            {
+                MessageBox.Show("Nu ati completat toate campurile", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            ClientConnection.returnBorrowing(codCarteTextBox.Text, codAbonatTextBox.Text, handleReturn);
+        }
+
+        private void handleReturn(Response<object> response)
+        {
+            if (dataGridView1.InvokeRequired)
+            {
+                OnHandleReturn d = new OnHandleReturn(handleReturn);
+                this.Invoke(d, new object[] { response });
+            }
+            else
+            {
+                if (response.success)
+                {
+                    MessageBox.Show("Restituire realizata cu succes!");
+                    ClientConnection.getAllBorrowings(loadBorrowings);
+                }
+                else
+                {
+                    MessageBox.Show(response.message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

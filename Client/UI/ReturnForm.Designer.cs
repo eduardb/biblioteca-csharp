@@ -80,9 +80,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 249);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 13);
+            this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 14;
-            this.label1.Text = "Cod client";
+            this.label1.Text = "ID Abonat";
             // 
             // codCarteTextBox
             // 
