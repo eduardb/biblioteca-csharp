@@ -14,6 +14,8 @@ namespace Client.UI
 {
     public partial class Login : Form
     {
+        delegate void OnLogin(Response<User> response);
+
         public Login()
         {
             InitializeComponent();
@@ -30,20 +32,30 @@ namespace Client.UI
 
         private void ProcessLoginResult(Response<User> response)
         {
-            if (response.success)
+            if (this.InvokeRequired)
             {
-                Form form = null;
-                if (response.response.privilege == User.Privilege.User)
-                    form = new UserForm();
-                else
-                    form = new AdminForm();
-                                       
-                form.Show();
-                this.Hide();
+                OnLogin d = new OnLogin(ProcessLoginResult);
+                this.Invoke(d, new object[] { response });
             }
             else
             {
-                MessageBox.Show(response.message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (response.success)
+                {
+                    MessageBox.Show("Bine ai revenit, " + response.response.nume);
+
+                    Form form = null;
+                    if (response.response.privilege == User.Privilege.User)
+                        form = new UserForm();
+                    else
+                        form = new AdminForm();
+
+                    form.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show(response.message, "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

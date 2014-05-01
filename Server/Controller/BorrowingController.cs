@@ -23,7 +23,7 @@ namespace Server.Controller
 
         public override string get(Command command)
         {
-            Response<User> response = new Response<User>();
+            Response<object> response = new Response<object>();
             response.success = false;
             response.message = "Not implemented";
             return JsonConvert.SerializeObject(response, Formatting.None);

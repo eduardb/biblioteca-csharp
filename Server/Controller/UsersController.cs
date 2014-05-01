@@ -14,7 +14,7 @@ namespace Server.Controller
     {
         public override string list(Command command)
         {
-            Response<User> response = new Response<User>();
+            Response<object> response = new Response<object>();
             response.success = false;
             response.message = "Not implemented";
             return JsonConvert.SerializeObject(response, Formatting.None);
@@ -22,7 +22,7 @@ namespace Server.Controller
 
         public override string put(Command command)
         {
-            Response<User> response = new Response<User>();
+            Response<object> response = new Response<object>();
             response.success = false;
             response.message = "Not implemented";
             return JsonConvert.SerializeObject(response, Formatting.None);
@@ -54,7 +54,7 @@ namespace Server.Controller
 
         public override string delete(Command command)
         {
-            Response<User> response = new Response<User>();
+            Response<object> response = new Response<object>();
             response.success = false;
             response.message = "Not implemented";
             return JsonConvert.SerializeObject(response, Formatting.None);
@@ -62,7 +62,7 @@ namespace Server.Controller
 
         public override string beat(Command command)
         {
-            Response<User> response = new Response<User>();
+            Response<object> response = new Response<object>();
             response.success = false;
             response.message = "Not implemented";
             return JsonConvert.SerializeObject(response, Formatting.None);

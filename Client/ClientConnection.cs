@@ -60,13 +60,19 @@ namespace Client
         public static void login(string userId, Action<Response<User>> callback)
         {
             Command cmd = new Command { controller = API.Controllers.USERS, method = API.Methods.GET, userID = userId };
-            Send<User>(cmd,
-                (response) => // intercept callback
+
+            Thread thread = new Thread(new ThreadStart(
+                () =>
                 {
-                    if (response.success) // if login was successfull
-                        ClientConnection.UserID = response.response.idUser; // store user id for future calls
-                    callback(response); // proceed with callback
-                });
+                    Send<User>(cmd,
+                        (response) => // intercept callback
+                        {
+                            if (response.success) // if login was successfull
+                                ClientConnection.UserID = response.response.idUser; // store user id for future calls
+                            callback(response); // proceed with callback
+                        });
+                }));
+            thread.Start();
         }
 
         public static void getAllBooks(Action<Response<List<Book>>> callback, bool includeUnavailable)
@@ -180,10 +186,21 @@ namespace Client
 
             // Write the response to the console.
             Console.WriteLine("Response received : {0}", response);
-            
-            Response<T> result = JsonConvert.DeserializeObject<Response<T>>(response);
 
-            callback(result);
+            try
+            {
+                Response<T> result = JsonConvert.DeserializeObject<Response<T>>(response);
+
+                if (result != null)
+                    callback(result);
+                else
+                    Send<T>(cmd, callback);
+            }
+            catch (JsonException ex)
+            {
+                Console.Error.WriteLine(ex.ToString());
+                Send<T>(cmd, callback);
+            }
         }
     }
 }

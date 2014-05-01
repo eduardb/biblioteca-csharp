@@ -261,12 +261,12 @@ namespace Server.Repository
 
         public long getLastBorrowingUpdate()
         {
-            return lastBorrowingUpdate;
+            return lastBorrowingUpdate / 10000 - new DateTime(1970, 1, 1).Ticks / 10000;
         }
 
         public long getLastBookUpdate()
         {
-            return lastBookUpdate;
+            return lastBookUpdate / 10000 - new DateTime(1970, 1, 1).Ticks / 10000;
         }
     }
 }
